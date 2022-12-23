@@ -23,12 +23,25 @@ func fibonacci_2(limit int, values []int) []int {
 	return fibonacci_2(limit, values)
 }
 
+func fibonacci_3(limit int) []int {
+	initValues := []int {0, 1}
+
+	for initValues[len(initValues) -1] < limit {
+		initValues = append(initValues, (initValues[len(initValues) - 2] + initValues[len(initValues) - 1]))
+	}
+
+	return initValues
+}
+
 func main() {
 	input := 300
 	initValues := []int {0, 1}
 	values := fibonacci(input, initValues, 0, 1)
 	fmt.Println(values)
-	
+
 	values_2 := fibonacci_2(input, initValues)
 	fmt.Println(values_2)
+
+	values_3 := fibonacci_3(input)
+	fmt.Println(values_3)
 }
