@@ -2,49 +2,35 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"sort"
 )
 
-func binary_search(input_value int, index int, arr []) bool {
-	length := 15
-	division := float64(length/2)
-	middle := int64(math.Floor(division))
+func binary_search(input_value int, arr []int, min int, max int) (bool, int) {
+	sort.Ints(arr)
 
-	if index >= length - 1 {
-		return false
+	if min > max {
+		return false, 0
 	}
 
-	if unordered_values[middle] <= input_value {
-		unordered_values_slice := unordered_values[1:middle]
+	var middle int = (min + max) / 2
 
-		if input_value == unordered_values_slice[index] {
-			return true
-		}
-
-		return binary_search(input_value, index + 1)
+	if input_value == arr[middle] {
+		return true, middle
+	} else if input_value < arr[middle] {
+		return binary_search(input_value, arr, min, middle - 1)
+	} else if input_value > arr[middle] {
+		return binary_search(input_value, arr, middle + 1, max)
 	}
 
-	if unordered_values[middle] >= input_value {
-		unordered_values_slice := unordered_values[middle:length - 1]
-
-		if input_value == unordered_values_slice[index] {
-			return true
-		}
-
-		return binary_search(input_value, index + 1)
-	}
-
-	return false
+	return false, -1
 }
 
 func main() {
-	unordered_values := []int{0, 2, 10, 30, 24, 47, 100, 11, 37, 19, 34, 45, 78, 102, 23}
-	sort.Ints(unordered_values)
-	exists := binary_search(10, 0, unordered_values)
+	unordered_values := []int {0, 2, 10, 30, 24, 47, 100, 11, 37, 19, 34, 45, 78, 102, 23}
+	exists, index := binary_search(10, unordered_values, 0, len(unordered_values) - 1)
 
 	if exists {
-		fmt.Println("Exists the value")
+		fmt.Println("Exists the value in the position:", index + 1)
 	} else {
 		fmt.Println("Not exists the value")
 	}
